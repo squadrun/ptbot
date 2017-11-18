@@ -1,3 +1,3 @@
 from settings import *
 
-PT_TOKEN = "<pt-token>"
+PT_TOKENS = ["<pt-token>"]

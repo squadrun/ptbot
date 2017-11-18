@@ -1,7 +1,6 @@
 import json
 
 import requests
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 
@@ -11,9 +10,8 @@ from ptbot.models import Project, Account, Person, Story
 models = (Account, Project, Person, Story)
 
 
-def fetch_data(token=settings.PT_TOKEN):
+def fetch_data(token):
     for model in models:
-        print "Fetching data for {0}".format(model)
         api_links = model.get_api_links()
         for api_link in api_links:
             response = requests.get(api_link, headers={'X-TrackerToken': token})
@@ -28,8 +26,6 @@ def fetch_data(token=settings.PT_TOKEN):
                             create_or_update_object(model, item)
                     else:
                         create_or_update_object(model, response_json)
-            else:
-                print response.status_code
 
 
 def create_or_update_object(model, api_data):
@@ -63,7 +59,7 @@ def resolve_data_for_model(model, data):
             related_field_pk_value = data[key]
             try:
                 resolved_data[key] = related_model.objects.get(pk=related_field_pk_value)
-            except ObjectDoesNotExist as e:
-                print e
+            except ObjectDoesNotExist:
+                pass
 
     return resolved_data
