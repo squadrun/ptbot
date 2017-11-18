@@ -11,9 +11,8 @@ from ptbot.models import Project, Account, Person, Story
 models = (Account, Project, Person, Story)
 
 
-def fetch_data(token=settings.PT_TOKEN):
+def fetch_data(token):
     for model in models:
-        print "Fetching data for {0}".format(model)
         api_links = model.get_api_links()
         for api_link in api_links:
             response = requests.get(api_link, headers={'X-TrackerToken': token})
