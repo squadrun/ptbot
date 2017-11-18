@@ -1,3 +1,5 @@
 Django>=1.7.0
 django-sql-explorer
 psycopg2
+requests
+djangorestframework
