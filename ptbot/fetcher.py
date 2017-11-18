@@ -26,8 +26,6 @@ def fetch_data(token):
                             create_or_update_object(model, item)
                     else:
                         create_or_update_object(model, response_json)
-            else:
-                print response.status_code
 
 
 def create_or_update_object(model, api_data):
@@ -61,7 +59,7 @@ def resolve_data_for_model(model, data):
             related_field_pk_value = data[key]
             try:
                 resolved_data[key] = related_model.objects.get(pk=related_field_pk_value)
-            except ObjectDoesNotExist as e:
-                print e
+            except ObjectDoesNotExist:
+                pass
 
     return resolved_data
